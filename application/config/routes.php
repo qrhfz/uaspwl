@@ -56,5 +56,7 @@ $route['login'] = 'landing/login';
 $route['logout'] = 'dasbor/logout';
 $route['dasbor'] = 'dasbor';
 $route['dasbor/(:any)'] = 'dasbor/$1';
+$route['api'] = 'api';
+$route['api/(:any)'] = 'api/$1';
 $route['(:any)'] = 'landing/redirect/$1';
 

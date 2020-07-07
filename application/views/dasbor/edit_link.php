@@ -411,7 +411,7 @@
                         <ul class="vertical-nav-menu">
                             <li class="app-sidebar__heading">Dashboards</li>
                             <li>
-                            <a href="<?php echo base_url("dasbor"); ?>" class="mm-active">
+                                <a href="<?php echo base_url("dasbor"); ?>" class="mm-active">
                                     <i class="metismenu-icon pe-7s-link"></i>
                                     Links
                                 </a>
@@ -451,44 +451,15 @@
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 col-xl-4">
-                            <div class="card mb-3 widget-content bg-midnight-bloom">
-                                <div class="widget-content-wrapper text-white">
-                                    <div class="widget-content-left">
-                                        <div class="widget-heading">Total Link</div>
-                                        <div class="widget-subheading">Jumlah Link yang Anda Buat</div>
-                                    </div>
-                                    <div class="widget-content-right">
-                                        <div class="widget-numbers text-white"><span><?php echo $linkcnt[0]['c'] ?></span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-xl-4">
-                            <div class="card mb-3 widget-content bg-arielle-smile">
-                                <div class="widget-content-wrapper text-white">
-                                    <div class="widget-content-left">
-                                        <div class="widget-heading">Klik</div>
-                                        <div class="widget-subheading">Total Klik Link</div>
-                                    </div>
-                                    <div class="widget-content-right">
-                                        <div class="widget-numbers text-white"><span><?php echo $clicksum; ?></span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
 
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Submit Link</h5>
-                            <form class="needs-validation" novalidate method="post" action="<?php echo base_url('dasbor/add_link'); ?>">
+                            <form class="needs-validation" novalidate method="post" action="<?php echo base_url('dasbor/proses_update_link'); ?>">
                                 <div class="form-row">
                                     <div class="col-md-8 mb-3">
                                         <label for="validationCustom01">Link Panjang</label>
-                                        <input name="panjang" type="url" class="form-control" id="validationCustom01" placeholder="Isi url yang panjang di sini" value="" required>
+                                        <input name="panjang" type="url" class="form-control" id="validationCustom01" placeholder="Isi url yang panjang di sini" value="<?php echo $link['panjang'] ?>" required>
                                         <div class="valid-feedback">
                                             Looks good!
                                         </div>
@@ -496,14 +467,14 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="col-md-5 mb-3">
-                                        <label for="validationCustom03">Link Pendek</label>
+                                        <label for="validationCustom03">Link Pendek Pendek</label>
                                         <div class="d-flex flex-row">
                                             <div class="py-2 pl-0 pr-1">
                                                 <?php echo base_url(); ?>
                                             </div>
                                             <div style="flex: 1 0 auto;">
-                                                <input onblur="checkAvailability()" name="pendek" type="text" class="form-control" id="validationCustom03" placeholder="Jika tidak diisi maka otomatis diisi random">
-
+                                                <input onblur="checkAvailability()" name="pendek" type="text" class="form-control" id="validationCustom03" placeholder="Jika tidak diisi maka otomatis diisi random" value="<?php echo $link['pendek'] ?>">
+                                                <input name="ori_pendek" type="hidden" id="ori_pendek" value="<?php echo $link['pendek'] ?>">
                                             </div>
                                             <div class="p-1 col-2">
                                                 <img src="<?php echo base_url('/assets/img/loading.gif'); ?>" id="loaderIcon" style="display: none;" />
@@ -540,58 +511,6 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="main-card mb-3 card">
-                                <div class="card-header">Shortened Links
-
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="align-middle mb-0 table table-borderless table-striped table-hover">
-                                        <thead>
-                                            <tr class="d-flex">
-                                                <th class="text-center col-1">#</th>
-                                                <th class="text-center col-2">Pendek</th>
-                                                <th class="text-center col-6">Panjang</th>
-                                                <th class="text-center col-1">Klik</th>
-                                                <th class="text-center col-2">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $i = 1;
-                                            foreach ($links as $link) {
-                                            ?>
-                                                <tr class="d-flex">
-                                                    <td class="text-center text-muted col-1"><?php echo $i; ?></td>
-                                                    <td class="text-center col-2">
-                                                        <a target="_blank" rel="noopener noreferrer" class="allowCopy" href="<?php echo base_url($link['pendek']); ?>"><?php echo base_url($link['pendek']); ?></a>
-                                                        <button type="button" class="btn btn-secondary btn-sm cpl p-0" data-toggle="tooltip" data-placement="top" title="Copy">
-                                                            <i class="metismenu-icon pe-7s-copy-file"></i>
-                                                        </button>
-
-
-                                                    </td>
-                                                    <td class="text-center col-6"><?php echo $link['panjang']; ?></td>
-                                                    <td class="text-center col-1"><?php echo $link['click']; ?></td>
-                                                    <td class="text-center col-2">
-                                                        <a href="<?php echo base_url("dasbor/edit_link/".$link['pendek']); ?>"  id="PopoverCustomT-1" class="btn btn-primary btn-sm">Edit</a>
-                                                        <a class="btn btn-danger btn-sm text-white" onclick="pressDel('<?php echo $link['pendek']; ?>')">Delete</a>
-                                                    </td>
-                                                </tr>
-                                            <?php $i++;
-                                            } ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="d-block text-center card-footer">
-                                    <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>
-                                    <button class="btn-wide btn btn-success">Save</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
                 <div class="app-wrapper-footer">
                     <div class="app-footer">
@@ -615,21 +534,13 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/admin.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.min.js"></script>
     <script>
-        $(function() {
-            $('.cpl').click(function() {
-                var $temp = $("<input>");
-                $("body").append($temp);
-                $temp.val($(this).siblings('a').text()).select();
-                document.execCommand("copy");
-                $temp.remove();
-            });
-        });
-
         function checkAvailability() {
             $("#loaderIcon").show();
             jQuery.ajax({
                 url: "<?php echo base_url('dasbor/cek_pendek'); ?>",
-                data: 'pendek=' + $("#validationCustom03").val(),
+                //data: '{"pendek":' + $("#validationCustom03").val()+',"ori_pendek":'+ $("#ori_pendek").val()+'}',
+                //data: {"pendek":$("#validationCustom03").val()},
+                data: {"pendek": $("#validationCustom03").val(), "ori_pendek": $("#ori_pendek").val()},
                 type: "POST",
                 success: function(data) {
                     $("#user-availability-status").html(data);
@@ -637,14 +548,6 @@
                 },
                 error: function() {}
             });
-        }
-
-        function pressDel(pendek) {
-            var txt;
-            var r = confirm("Apakah anda yakin untuk menghapus link ini?");
-            if (r == true) {
-                window.location.href = '<?php echo base_url("dasbor/hapus_link/"); ?>'+pendek;
-            }
         }
     </script>
 </body>
